@@ -39,6 +39,22 @@ export const useFFmpeg = () => {
             );
         }
 
+        // Add the final segment from the last flush to the end
+        if (flushFrames.length > 0) {
+            const lastIndex = flushFrames.length;
+            const outName = `out${lastIndex}.mp4`;
+            segments.push(outName);
+            await ffmpeg.run(
+                '-i',
+                name,
+                '-ss',
+                flushFrames[flushFrames.length - 1].end,
+                '-c',
+                'copy',
+                outName
+            );
+        }
+
         const finalName = 'output.mp4';
         const concatList = 'fileList.txt';
         const listContent = segments.map((s) => `file '${s}'`).join('\n');
