@@ -1,0 +1,69 @@
+
+:root {
+  --clay-background: #e7e7e7;
+  --clay-shadow-from: rgba(255, 255, 255, 0.9);
+  --clay-shadow-to: rgba(70, 70, 70, 0.2);
+}
+
+.clay {
+  background: var(--clay-background);
+  border-radius: 50px;
+  border: none;
+  padding: 20px;
+  box-shadow: 
+    20px 20px 40px var(--clay-shadow-to),
+    -20px -20px 40px var(--clay-shadow-from),
+    inset -5px -5px 15px var(--clay-shadow-from),
+    inset 5px 5px 15px var(--clay-shadow-to);
+  transition: all 0.2s ease-in-out;
+}
+
+.clay:hover {
+  box-shadow: 
+    10px 10px 20px var(--clay-shadow-to),
+    -10px -10px 20px var(--clay-shadow-from),
+    inset -2px -2px 5px var(--clay-shadow-from),
+    inset 2px 2px 5px var(--clay-shadow-to);
+  transform: scale(0.98);
+}
+
+.clay-card {
+  background: var(--clay-background);
+  border-radius: 30px;
+  padding: 2rem;
+  box-shadow: 
+    15px 15px 30px var(--clay-shadow-to),
+    -15px -15px 30px var(--clay-shadow-from);
+}
+
+.clay-button {
+  background: var(--clay-background);
+  border: none;
+  border-radius: 15px;
+  padding: 1rem 2rem;
+  font-weight: bold;
+  box-shadow: 
+    8px 8px 16px var(--clay-shadow-to),
+    -8px -8px 16px var(--clay-shadow-from);
+  cursor: pointer;
+}
+
+.clay-input {
+  background: var(--clay-background);
+  border: none;
+  border-radius: 15px;
+  padding: 1rem;
+  width: 100%;
+  box-shadow: 
+    inset 5px 5px 10px var(--clay-shadow-to),
+    inset -5px -5px 10px var(--clay-shadow-from);
+}
+
+.clay-container {
+  background: var(--clay-background);
+  border-radius: 40px;
+  padding: 3rem;
+  box-shadow: 
+    25px 25px 50px var(--clay-shadow-to),
+    -25px -25px 50px var(--clay-shadow-from);
+}
