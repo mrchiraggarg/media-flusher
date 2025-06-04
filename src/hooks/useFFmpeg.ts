@@ -19,22 +19,14 @@ export const useFFmpeg = () => {
         const name = 'input.mp4';
         ffmpeg.FS('writeFile', name, await fetchFile(file));
 
-        const concatInputs: string[] = [];
         const segments: string[] = [];
 
-        // Get duration
-        const durationOutput = await ffmpeg.run(
-            '-i',
-            name
-        ).catch((e) => console.warn(e));
-
-        // This is a simplification. Ideally you should extract actual durations via ffprobe.
-        // Assume segments are around flushed parts.
-
-        flushFrames.forEach((frame, index) => {
+        // Process segments sequentially
+        for (let index = 0; index < flushFrames.length; index++) {
+            const frame = flushFrames[index];
             const outName = `out${index}.mp4`;
             segments.push(outName);
-            ffmpeg.run(
+            await ffmpeg.run(
                 '-i',
                 name,
                 '-ss',
@@ -45,7 +37,7 @@ export const useFFmpeg = () => {
                 'copy',
                 outName
             );
-        });
+        }
 
         const finalName = 'output.mp4';
         const concatList = 'fileList.txt';
