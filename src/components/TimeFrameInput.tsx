@@ -19,44 +19,93 @@ const TimeFrameInput: React.FC<Props> = ({ timeFrames, setTimeFrames }) => {
   };
 
   const removeFrame = (index: number) => {
-    setTimeFrames(timeFrames.filter((_, i) => i !== index));
+    if (timeFrames.length > 1) {
+      setTimeFrames(timeFrames.filter((_, i) => i !== index));
+    }
   };
 
   return (
-    <div className="space-y-4">
-      {timeFrames.map((frame, i) => (
-        <div
-          key={i}
-          className="flex items-center gap-4 bg-[#E8E9ED] p-6 rounded-2xl border-2 border-white shadow-[8px_8px_16px_#D1D9E6,-8px_-8px_16px_#FFFFFF]"
-        >
-          <input
-            type="text"
-            placeholder="Start (e.g. 00:00:05)"
-            value={frame.start}
-            onChange={(e) => updateFrame(i, 'start', e.target.value)}
-            className="px-4 py-2 rounded-xl bg-[#E8E9ED] border-2 border-white shadow-[inset_4px_4px_8px_#D1D9E6,inset_-4px_-4px_8px_#FFFFFF]"
-          />
-          <input
-            type="text"
-            placeholder="End (e.g. 00:00:10)"
-            value={frame.end}
-            onChange={(e) => updateFrame(i, 'end', e.target.value)}
-            className="px-4 py-2 rounded-xl bg-[#E8E9ED] border-2 border-white shadow-[inset_4px_4px_8px_#D1D9E6,inset_-4px_-4px_8px_#FFFFFF]"
-          />
-          <button
-            onClick={() => removeFrame(i)}
-            className="text-red-500 font-bold w-10 h-10 rounded-full bg-[#E8E9ED] border-2 border-white shadow-[4px_4px_8px_#D1D9E6,-4px_-4px_8px_#FFFFFF] hover:shadow-[inset_4px_4px_8px_#D1D9E6,inset_-4px_-4px_8px_#FFFFFF] transition-shadow"
-          >
-            ✕
-          </button>
+    <div className="slide-up">
+      <div className="neu-card p-8">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-semibold text-neutral-700">
+            Time Frames to Remove
+          </h2>
+          <span className="text-sm text-neutral-500 bg-neutral-100 px-3 py-1 rounded-full">
+            {timeFrames.length} frame{timeFrames.length !== 1 ? 's' : ''}
+          </span>
         </div>
-      ))}
-      <button
-        onClick={addFrame}
-        className="mt-4 px-6 py-3 rounded-2xl bg-[#E8E9ED] border-2 border-white shadow-[8px_8px_16px_#D1D9E6,-8px_-8px_16px_#FFFFFF] hover:shadow-[inset_8px_8px_16px_#D1D9E6,inset_-8px_-8px_16px_#FFFFFF] transition-shadow"
-      >
-        ➕ Add Time Frame
-      </button>
+        
+        <div className="space-y-4">
+          {timeFrames.map((frame, i) => (
+            <div
+              key={i}
+              className="neu-card p-6 fade-in"
+              style={{ animationDelay: `${i * 0.1}s` }}
+            >
+              <div className="flex items-center gap-4">
+                <div className="flex-1 space-y-2">
+                  <label className="text-sm font-medium text-neutral-600">
+                    Start Time
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="00:00:05"
+                    value={frame.start}
+                    onChange={(e) => updateFrame(i, 'start', e.target.value)}
+                    className="neu-input"
+                  />
+                </div>
+                
+                <div className="flex items-center justify-center w-8 h-8 text-neutral-400 mt-6">
+                  →
+                </div>
+                
+                <div className="flex-1 space-y-2">
+                  <label className="text-sm font-medium text-neutral-600">
+                    End Time
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="00:00:10"
+                    value={frame.end}
+                    onChange={(e) => updateFrame(i, 'end', e.target.value)}
+                    className="neu-input"
+                  />
+                </div>
+                
+                <button
+                  onClick={() => removeFrame(i)}
+                  className="neu-button-danger mt-6"
+                  disabled={timeFrames.length === 1}
+                  title={timeFrames.length === 1 ? "Cannot remove the last frame" : "Remove frame"}
+                >
+                  ✕
+                </button>
+              </div>
+              
+              <div className="mt-4 text-xs text-neutral-500">
+                Frame {i + 1}: Remove content from {frame.start || '00:00:00'} to {frame.end || '00:00:00'}
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <button
+          onClick={addFrame}
+          className="neu-button w-full mt-6 text-primary-600 font-semibold"
+        >
+          <span className="mr-2">➕</span>
+          Add Another Time Frame
+        </button>
+        
+        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <p className="text-sm text-blue-700">
+            <strong>💡 Tip:</strong> Use format HH:MM:SS (e.g., 00:01:30 for 1 minute 30 seconds). 
+            Multiple frames will be removed from your media file.
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
